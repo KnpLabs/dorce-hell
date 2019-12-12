@@ -7,3 +7,4 @@ services:
             context: .
         volumes:
             - '.:/usr/src/app'
+            - '../data/:/var/data'

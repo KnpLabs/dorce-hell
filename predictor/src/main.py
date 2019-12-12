@@ -7,17 +7,28 @@ import tensorflow as tf
 import tensorflow_hub as hub
 import tensorflow_datasets as tfds
 
+import os
+
 print("Version: ", tf.__version__)
 print("Eager mode: ", tf.executing_eagerly())
 print("Hub version: ", hub.__version__)
 print("GPU is", "available" if tf.config.experimental.list_physical_devices("GPU") else "NOT AVAILABLE")
 
-train_validation_split = tfds.Split.TRAIN.subsplit([6, 4])
+DATA_ROOT = '/var/data/'
+DATASET_SIZE = 500
 
-(train_data, validation_data), test_data = tfds.load(
-    name="imdb_reviews", 
-    split=(train_validation_split, tfds.Split.TEST),
-    as_supervised=True)
+lines_dataset = tf.data.TextLineDataset(os.path.join(DATA_ROOT, 'pron.txt'))
+porn_labeled_data_set = lines_dataset.map(lambda example: (example, True))
+
+lines_dataset = tf.data.TextLineDataset(os.path.join(DATA_ROOT, 'not-pron.txt'))
+notporn_labeled_data_set = lines_dataset.map(lambda example: (example, False))
+
+dataset = porn_labeled_data_set.concatenate(notporn_labeled_data_set)
+dataset = dataset.shuffle(DATASET_SIZE, reshuffle_each_iteration=False)
+
+train_data = dataset.shard(3, 0)
+validation_data = dataset.shard(3, 1)
+test_data = dataset.shard(3, 2)
 
 train_examples_batch, train_labels_batch = next(iter(train_data.batch(10)))
 

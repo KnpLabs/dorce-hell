@@ -18,6 +18,6 @@ for offset in range(0, 200):
     separator = '.'
     allMovies = separator.join(titleMovies)
     print('abc : ', separator.join(titleMovies))
-    for titleMovie in translator.translate(allMovies.split('.'), dest='fr'):
+    for titleMovie in translator.translate(allMovies, dest='fr').split('.'):
        with open(os.path.join(DATA_ROOT, FILENAME), 'a') as file:
             file.write(titleMovie.text + '\n')

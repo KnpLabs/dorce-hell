@@ -12,4 +12,4 @@ WORKDIR /usr/src/app
 
 COPY . /usr/src/app
 
-CMD ["python", "src/parser.py"]
+CMD ["python", "src/main.py"]

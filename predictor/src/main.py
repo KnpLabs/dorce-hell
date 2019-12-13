@@ -7,6 +7,8 @@ import tensorflow as tf
 import tensorflow_hub as hub
 import tensorflow_datasets as tfds
 
+import keras
+
 import os
 
 print("Version: ", tf.__version__)
@@ -16,6 +18,7 @@ print("GPU is", "available" if tf.config.experimental.list_physical_devices("GPU
 
 DATA_ROOT = '/var/data/'
 DATASET_SIZE = 500
+
 
 lines_dataset = tf.data.TextLineDataset(os.path.join(DATA_ROOT, 'pron.txt'))
 porn_labeled_data_set = lines_dataset.map(lambda example: (example, True))
@@ -57,3 +60,6 @@ results = model.evaluate(test_data.batch(512), verbose=2)
 
 for name, value in zip(model.metrics_names, results):
     print("%s: %.3f" % (name, value))
+
+prediction = model.predict(np.array(keras.preprocessing.text.text_to_word_sequence('Chez Carrefour, le dentrifice est en promotion', split='.')))
+print(prediction)

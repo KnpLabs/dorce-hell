@@ -15,7 +15,9 @@ for offset in range(0, 200):
     page = requests.get(url)
     tree = html.fromstring(page.content)
     titleMovies = tree.xpath(XPATH)
-
-    for titleMovie in translator.translate(titleMovies, dest='fr'):
-        with open(os.path.join(DATA_ROOT, FILENAME), 'a') as file:
+    separator = '.'
+    allMovies = separator.join(titleMovies)
+    print('abc : ', separator.join(titleMovies))
+    for titleMovie in translator.translate(allMovies.split('.'), dest='fr'):
+       with open(os.path.join(DATA_ROOT, FILENAME), 'a') as file:
             file.write(titleMovie.text + '\n')

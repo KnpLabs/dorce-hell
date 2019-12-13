@@ -17,7 +17,6 @@ for offset in range(0, 200):
     titleMovies = tree.xpath(XPATH)
     separator = '.'
     allMovies = separator.join(titleMovies)
-    print('abc : ', separator.join(titleMovies))
     for titleMovie in translator.translate(allMovies, dest='fr').split('.'):
        with open(os.path.join(DATA_ROOT, FILENAME), 'a') as file:
             file.write(titleMovie.text + '\n')

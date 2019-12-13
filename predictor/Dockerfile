@@ -3,7 +3,10 @@ FROM tensorflow/tensorflow:latest-py3
 RUN pip install \
     keras \
     tensorflow-hub \
-    tensorflow-datasets 
+    tensorflow-datasets \
+    lxml \
+    requests \
+    googletrans
 
 WORKDIR /usr/src/app
 
